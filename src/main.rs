@@ -4,6 +4,19 @@ enum IpAddr {
     V6(String), //      64 + 64 = 128
 } //                    128
 
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
 enum Message {
     Quit,
     Move {_x: i32, _y: i32},
@@ -20,10 +33,62 @@ impl Message {
 fn main() {
     println!("Chapter 6 - Enums!");
     enum_stuff();
+    match_stuff();
 }
 
 fn match_stuff() {
-    
+    println!("\n\tThe \"match\" statement");
+    let monies_penny = Coin::Penny;
+    println!("Value is {}",value_in_cents(monies_penny));
+    let monies_nickel = Coin::Nickel;
+    println!("Value is {}",value_in_cents(monies_nickel));
+    let monies_dime = Coin::Dime;
+    println!("Value is {}",value_in_cents(monies_dime));
+    let monies_quarter = Coin::Quarter(UsState::Alaska);
+    println!("Value is {}",value_in_cents(monies_quarter));
+    let monies_quarter2 = Coin::Quarter(UsState::Alabama);
+    println!("Value is {}",value_in_cents(monies_quarter2));
+
+    println!("\tMatching with Option<T>");
+    let five = Some(5);
+    println!("{:?}",five);
+    let six = plus_one(five);
+    println!("{:?}",six);
+    let none = plus_one(None);
+    println!("{:?}",none);
+    dice_roll_proc(3);
+    dice_roll_proc(4);
+    dice_roll_proc(7);
+}
+
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => {
+            println!("Penny Dreadful!");
+            1},
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State Quarter from {:?}",state);
+            25},
+    }
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None, // Without covering all cases, compiler throws error
+        Some(i) => Some(i + 1),
+    }
+}
+
+fn dice_roll_proc(dice_roll: u8) {
+    match dice_roll {
+        3 => println!("add_fancy_hat!"),
+        7 => println!("remove_fancy_hat!"),
+        // _ => println!("reroll 🙁"),
+        _ => (),
+    }
 }
 
 fn enum_stuff() {
