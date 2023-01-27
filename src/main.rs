@@ -34,6 +34,24 @@ fn main() {
     println!("Chapter 6 - Enums!");
     enum_stuff();
     match_stuff();
+    if_let_stuff();
+}
+
+fn if_let_stuff() {
+    let mut count1 = 0;
+    let mut count2 = 0;
+    let coin = Coin::Quarter(UsState::Alabama);
+    match coin {
+        Coin::Quarter(state) => println!("State quarter from {:?}!", state),
+        _ => count1 += 1,
+    }
+    let coin = Coin::Penny;
+    if let Coin::Quarter(state) = coin {
+        println!("State quarter from {:?}!", state);
+    } else {
+        count2 += 1;
+    }
+    println!("Count 1 = {}\nCount 2 = {}",count1,count2)
 }
 
 fn match_stuff() {
@@ -60,7 +78,6 @@ fn match_stuff() {
     dice_roll_proc(4);
     dice_roll_proc(7);
 }
-
 
 fn value_in_cents(coin: Coin) -> u8 {
     match coin {
